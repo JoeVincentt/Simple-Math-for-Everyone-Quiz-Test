@@ -9,8 +9,8 @@ class AdComponent extends React.Component {
         bannerSize="fullBanner"
         adUnitID={
           Platform.OS === "ios"
-            ? "ca-app-pub-3940256099942544/6300978111"
-            : "ca-app-pub-3940256099942544/6300978111"
+            ? "ca-app-pub-3081883372305625/1626000458"
+            : "ca-app-pub-3081883372305625/6303612066"
         } // Test ID, Replace with your-admob-unit-id
         testDeviceID="EMULATOR"
         onDidFailToReceiveAdWithError={this.bannerError}

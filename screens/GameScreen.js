@@ -1,129 +1,186 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  Platform
-} from "react-native";
+import { StyleSheet, View, Vibration } from "react-native";
 import StyledView from "../components/StyledView";
 import LoadingModal from "../components/LoadingModal";
-import { BounceButton } from "../components/Buttons";
-import { MainText, ButtonText } from "../components/Text";
 import { height, width } from "../constants/Layout";
 import { AnswerButtons } from "../components/AnswerButtons";
 import { Question } from "../components/Question";
 import { GameConsumer } from "../context/GameContext";
 import { GameHeader } from "../components/GameHeader";
+import { _showToast } from "../utils/ShowToast";
+import { soundPlay } from "../utils/soundPlay";
+import AdmobBanner from "../utils/showAdmobBanner";
+import { showAdmobInterstitialAd, showAdmobRewardedAd } from "../utils/showAd";
 
 export default class GameScreen extends React.Component {
   state = {
-    // GameMode: this.props.navigation.getParam("gamemode"),
+    GameMode: this.props.navigation.getParam("gamemode"),
+    topNumber: this.props.navigation.getParam("topNumber"),
+    rightAnswer: "",
+    x: "",
+    y: "",
     loading: true,
-    answer: 111,
-    number1: 2,
-    number2: 2,
-    action: "+"
+    answer: "",
+    action: "",
+    showedHint: false,
+    usedEightHints: 0,
+    answeredEightWrong: 0,
+    answeredTenCorrect: 0
   };
   componentDidMount() {
-    console.log("Game did mount");
     this.setState({ loading: false });
-  }
-  componentWillMount() {
-    console.log("game mode:", this.props.navigation.getParam("gamemode"));
-    console.log("Game will mount");
-  }
-  componentWillUnmount() {
-    console.log("Game will Unmount");
+    this.loadEquation();
   }
 
-  callNumber = (maximum, minimum) => {
+  randomNumberInRange = (maximum, minimum) => {
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
   };
 
-  callMath = () => {
-    const actions = [
-      (add = (x, y) => {
-        return x + y;
-      }),
-      (subtract = (x, y) => {
-        return x - y;
-      }),
-      (multiply = (x, y) => {
-        return (x * y).toFixed(2);
-      }),
-      (divide = (x, y) => {
-        return (x / y).toFixed(2);
-      })
-    ];
-
-    const actionNumber = this.callNumber(0, 4);
-    switch (actionNumber) {
-      case 0:
-        console.log("+");
-        break;
-      case 1:
-        console.log("-");
-        break;
-      case 2:
-        console.log("*");
-        break;
-      case 3:
-        console.log("/");
-        break;
-      default:
+  loadEquation = async () => {
+    this.setState({ answer: "", showedHint: false });
+    const x = this.randomNumberInRange(1, this.state.topNumber);
+    const y = this.randomNumberInRange(1, this.state.topNumber);
+    await this.setState({ x, y });
+    let rightAnswer;
+    switch (this.state.GameMode) {
+      case "add":
+        rightAnswer = x + y;
+        await this.setState({ rightAnswer, action: "+" });
+        return;
+      case "sub":
+        rightAnswer = x - y;
+        await this.setState({ rightAnswer, action: "-" });
+        return;
+      case "mult":
+        rightAnswer = x * y;
+        await this.setState({ rightAnswer, action: "*" });
+        return;
+      case "div":
+        rightAnswer = x / y;
+        rightAnswer = rightAnswer.toFixed(2);
+        await this.setState({ rightAnswer, action: "/" });
+        return;
     }
-    const actionNumber2 = this.callNumber(0, 4);
-    switch (actionNumber2) {
-      case 0:
-        console.log("+");
-        break;
-      case 1:
-        console.log("-");
-        break;
-      case 2:
-        console.log("*");
-        break;
-      case 3:
-        console.log("/");
-        break;
-      default:
+  };
+  action1 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 1).toString() });
+  };
+  action2 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 2).toString() });
+  };
+  action3 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 3).toString() });
+  };
+  action4 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 4).toString() });
+  };
+  action5 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 5).toString() });
+  };
+  action6 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 6).toString() });
+  };
+  action7 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 7).toString() });
+  };
+  action8 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 8).toString() });
+  };
+  action9 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 9).toString() });
+  };
+  action0 = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + 0).toString() });
+  };
+  actionDot = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + ".").toString() });
+  };
+  actionNegative = () => {
+    soundPlay(require("../assets/sounds/click.wav"));
+    this.setState({ answer: (this.state.answer + "-").toString() });
+  };
+  actionSkip = () => {
+    soundPlay(require("../assets/sounds/hint.wav"));
+
+    this.loadEquation();
+  };
+
+  actionCheck = () => {
+    if (this.state.showedHint) {
+      soundPlay(require("../assets/sounds/hint.wav"));
+      _showToast(" no cheating ", 2000, "warning", "top");
+      this.loadEquation();
+      return;
     }
-    const actionNumber3 = this.callNumber(0, 4);
-    switch (actionNumber3) {
-      case 0:
-        console.log("+");
-        break;
-      case 1:
-        console.log("-");
-        break;
-      case 2:
-        console.log("*");
-        break;
-      case 3:
-        console.log("/");
-        break;
-      default:
+    if (this.state.answer.length === 0) {
+      soundPlay(require("../assets/sounds/wrong.wav"));
+      _showToast(" no answer ", 2000, "warning", "top");
+      return;
     }
+    if (this.state.answer.toString() === this.state.rightAnswer.toString()) {
+      if (this.state.answeredTenCorrect >= 10) {
+        showAdmobInterstitialAd();
+        this.setState({ answeredTenCorrect: 0 });
+      }
+      this.setState({ answeredTenCorrect: this.state.answeredTenCorrect + 1 });
+      soundPlay(require("../assets/sounds/success.wav"));
+      _showToast(" C o r r e c t ! ", 2000, "success", "top");
 
-    const x = this.callNumber(0, 10);
-    const y = this.callNumber(0, 10);
-    const z = this.callNumber(0, 10);
+      this.loadEquation();
+      this.context.reducers.addCoins();
+      return;
+    }
+    if (this.state.answer.toString() !== this.state.rightAnswer.toString()) {
+      if (this.state.answeredEightWrong >= 8) {
+        showAdmobInterstitialAd();
+        showAdmobRewardedAd();
+        this.setState({ answeredEightWrong: 0 });
+      }
+      this.setState({
+        answeredEightWrong: this.state.answeredEightWrong + 1,
+        answer: ""
+      });
 
-    const chosenAction = actions[actionNumber];
-    const chosenAction2 = actions[actionNumber2];
-    const chosenAction3 = actions[actionNumber3];
+      Vibration.vibrate(600);
+      soundPlay(require("../assets/sounds/wrong.wav"));
+      _showToast(" wrong, please try again! ", 4000, "danger", "top");
+      return;
+    }
+  };
 
-    console.log(x, y, z);
+  showHint = () => {
+    if (this.state.usedEightHints >= 8) {
+      showAdmobInterstitialAd();
+      this.setState({ usedEightHints: 0 });
+    }
+    this.setState({
+      answer: this.state.rightAnswer,
+      showedHint: true,
+      usedEightHints: this.state.usedEightHints + 1
+    });
+  };
 
-    console.log(chosenAction(x, y));
-    console.log(chosenAction2(y, z));
-    console.log(chosenAction3(chosenAction(x, y), chosenAction2(y, z)));
+  clearField = () => {
+    if (this.state.answer.length === 0) {
+      return;
+    }
+    soundPlay(require("../assets/sounds/hint.wav"));
+    this.setState({ answer: "" });
   };
 
   render() {
-    const { loading, number1, number2, action, answer } = this.state;
+    const { loading, action, answer, x, y } = this.state;
     return (
       <>
         <GameConsumer>
@@ -134,20 +191,43 @@ export default class GameScreen extends React.Component {
                   this.context = context;
                 }}
               >
+                <GameHeader coins={context.coins} showHint={this.showHint} />
                 <View style={{ flex: 1 }}>
-                  <GameHeader coins={10} />
                   <View style={styles.box}>
                     <Question
-                      number1={number1}
-                      number2={number2}
+                      number1={x}
+                      number2={y}
                       action={action}
                       answer={answer}
+                      clearField={this.clearField}
                     />
                   </View>
                   <View style={{ height: height * 0.4 }}>
-                    <AnswerButtons />
+                    <AnswerButtons
+                      action1={this.action1}
+                      action2={this.action2}
+                      action3={this.action3}
+                      action4={this.action4}
+                      action5={this.action5}
+                      action6={this.action6}
+                      action7={this.action7}
+                      action8={this.action8}
+                      action9={this.action9}
+                      action0={this.action0}
+                      actionDot={this.actionDot}
+                      actionNegative={this.actionNegative}
+                      actionSkip={this.actionSkip}
+                      actionCheck={this.actionCheck}
+                    />
                   </View>
                 </View>
+                <AdmobBanner />
+                <View
+                  style={{
+                    backgroundColor: "transparent",
+                    paddingBottom: height * 0.02
+                  }}
+                />
               </StyledView>
               <LoadingModal loading={loading} />
             </>

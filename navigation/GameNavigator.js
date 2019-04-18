@@ -11,6 +11,6 @@ export default (GameStack = createStackNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Game"
+    initialRouteName: "Landing"
   }
 ));

@@ -12,29 +12,19 @@ const saveDataToSecureStorage = async (key, item) =>
 
 const retrieveDataFromSecureStorage = async key =>
   await Expo.SecureStore.getItemAsync(key);
-// let crystal = await retrieveDataFromSecureStorage(
-//   "WordsMeaningCrystal"
-// );
-// if (crystal !== null) {
-//   crystal = Number(JSON.parse(crystal));
-//   this.setState({ crystal });
-// }
 
 export class GameProvider extends React.Component {
   state = {
-    username: "",
-    time: 25000,
     coins: 0,
     reducers: {
-      pressMe: () => {
-        console.log("hello");
+      addCoins: async () => {
+        await this.setState({ coins: this.state.coins + 1 });
+        saveDataToSecureStorage("EasyMathCoins", this.state.coins);
       }
     }
   };
 
   componentDidMount() {
-    console.log("context did mount");
-
     // Interstitial ad
     AdMobInterstitial.addEventListener("interstitialDidLoad", () => {});
     AdMobInterstitial.addEventListener("interstitialDidFailToLoad", () => {});
@@ -63,11 +53,14 @@ export class GameProvider extends React.Component {
       () => {}
     );
   }
-  componentWillMount() {
-    console.log("context will mount");
+  async componentWillMount() {
+    let coins = await retrieveDataFromSecureStorage("EasyMathCoins");
+    if (coins !== null) {
+      coins = Number(JSON.parse(coins));
+      this.setState({ coins });
+    }
   }
   componentWillUnmount() {
-    console.log("context will Unmount");
     AdMobInterstitial.removeAllListeners();
     AdMobRewarded.removeAllListeners();
   }

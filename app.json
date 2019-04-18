@@ -1,29 +1,28 @@
 {
   "expo": {
-    "name": "Math",
-    "slug": "Math",
+    "name": "Simple Math for Everyone, Quiz, Test",
+    "slug": "simplemathforeveryone",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#03a9f4"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jvmastery.simplemathexercise"
+    },
+    "android": {
+      "package": "com.jvmastery.simplemathexercise"
     }
   }
 }

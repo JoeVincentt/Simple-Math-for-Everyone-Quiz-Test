@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image, Platform } from "react-native";
 import { Icon } from "native-base";
 import { BounceButton } from "../components/Buttons";
 import { ButtonText } from "../components/Text";
@@ -16,7 +16,10 @@ export const AnswerButtons = ({
   action8,
   action9,
   action0,
-  actiionSubmit
+  actionDot,
+  actionCheck,
+  actionSkip,
+  actionNegative
 }) => {
   return (
     <>
@@ -24,53 +27,69 @@ export const AnswerButtons = ({
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action7()}
         >
           <ButtonText> 7 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action8()}
         >
           <ButtonText> 8 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action9()}
         >
           <ButtonText> 9 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action0()}
         >
           <ButtonText> 0 </ButtonText>
+        </BounceButton>
+
+        <BounceButton
+          colors={["#00e676", "#64dd17"]}
+          style={styles.bounceBase}
+          innerStyle={styles.bounceInner}
+          onPress={() => actionCheck()}
+        >
+          <ButtonText> ✔ </ButtonText>
         </BounceButton>
       </View>
       <View style={styles.numbersRow}>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action4()}
         >
           <ButtonText> 4 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action5()}
         >
           <ButtonText> 5 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action6()}
         >
           <ButtonText> 6 </ButtonText>
+        </BounceButton>
+        <BounceButton
+          style={styles.bounceBase}
+          innerStyle={styles.bounceInner}
+          onPress={() => actionDot()}
+        >
+          <ButtonText> . </ButtonText>
         </BounceButton>
         <View style={styles.bounceBase} />
       </View>
@@ -78,31 +97,45 @@ export const AnswerButtons = ({
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action1()}
         >
           <ButtonText> 1 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action2()}
         >
           <ButtonText> 2 </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => action3()}
         >
           <ButtonText> 3 </ButtonText>
+        </BounceButton>
+        <BounceButton
+          style={styles.bounceBase}
+          innerStyle={styles.bounceInner}
+          onPress={() => actionNegative()}
+        >
+          <ButtonText> - </ButtonText>
         </BounceButton>
         <BounceButton
           colors={["#00e676", "#64dd17"]}
           style={styles.bounceBase}
           innerStyle={styles.bounceInner}
-          onPress={() => {}}
+          onPress={() => actionSkip()}
         >
-          <ButtonText> ✔ </ButtonText>
+          <Image
+            source={require("../assets/images/skip.png")}
+            style={{
+              overflow: "visible",
+              height: height * 0.04,
+              width: width * 0.058
+            }}
+          />
         </BounceButton>
       </View>
     </>
@@ -111,14 +144,14 @@ export const AnswerButtons = ({
 
 const styles = StyleSheet.create({
   bounceBase: {
-    height: height * 0.1,
-    width: width * 0.2,
-    marginVertical: height * 0.005,
-    marginHorizontal: width * 0.018
+    height: height * 0.07,
+    width: width * 0.15,
+    marginVertical: height * 0.004,
+    marginHorizontal: width * 0.014
   },
   bounceInner: {
-    height: height * 0.1,
-    width: width * 0.2
+    height: height * 0.07,
+    width: width * 0.15
   },
   numbersRow: {
     flexDirection: "row",
