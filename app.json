@@ -14,7 +14,9 @@
       "backgroundColor": "#03a9f4"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 30000,
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -23,6 +25,7 @@
     },
     "android": {
       "package": "com.jvmastery.simplemathexercise"
-    }
+    },
+    "description": "Test your math skills! All ages, everyone can play!\nBasic mathematical operations as addition, subtraction, multiplication, division. With random numbers in your range and no time limit!"
   }
 }
