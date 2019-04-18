@@ -4,7 +4,10 @@
     "slug": "simplemathforeveryone",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -18,12 +21,16 @@
       "enabled": true,
       "checkAutomatically": "ON_LOAD"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
+      "appStoreUrl": "https://itunes.apple.com/us/app/simple-math-for-everyone-test/id1460218411",
       "supportsTablet": true,
       "bundleIdentifier": "com.jvmastery.simplemathexercise"
     },
     "android": {
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.jvmastery.simplemathexercise",
       "package": "com.jvmastery.simplemathexercise"
     },
     "description": "Test your math skills! All ages, everyone can play!\nBasic mathematical operations as addition, subtraction, multiplication, division. With random numbers in your range and no time limit!"

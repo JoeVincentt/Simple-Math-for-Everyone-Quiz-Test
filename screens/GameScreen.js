@@ -37,28 +37,56 @@ export default class GameScreen extends React.Component {
   };
 
   loadEquation = async () => {
-    this.setState({ answer: "", showedHint: false });
     const x = this.randomNumberInRange(1, this.state.topNumber);
     const y = this.randomNumberInRange(1, this.state.topNumber);
-    await this.setState({ x, y });
     let rightAnswer;
     switch (this.state.GameMode) {
       case "add":
         rightAnswer = x + y;
-        await this.setState({ rightAnswer, action: "+" });
+        await this.setState({
+          rightAnswer,
+          action: "+",
+          answer: "",
+          showedHint: false,
+          x,
+          y
+        });
         return;
       case "sub":
         rightAnswer = x - y;
-        await this.setState({ rightAnswer, action: "-" });
+        await this.setState({
+          rightAnswer,
+          action: "-",
+          answer: "",
+          showedHint: false,
+          x,
+          y
+        });
         return;
       case "mult":
         rightAnswer = x * y;
-        await this.setState({ rightAnswer, action: "*" });
+        await this.setState({
+          rightAnswer,
+          action: "*",
+          answer: "",
+          showedHint: false,
+          x,
+          y
+        });
         return;
       case "div":
-        rightAnswer = x / y;
-        rightAnswer = rightAnswer.toFixed(2);
-        await this.setState({ rightAnswer, action: "/" });
+        rightAnswer = Math.floor(x / y);
+        if (x % y !== 0 || rightAnswer === 1) {
+          return this.loadEquation();
+        }
+        await this.setState({
+          rightAnswer,
+          action: "/",
+          answer: "",
+          showedHint: false,
+          x,
+          y
+        });
         return;
     }
   };
@@ -129,7 +157,7 @@ export default class GameScreen extends React.Component {
       return;
     }
     if (this.state.answer.toString() === this.state.rightAnswer.toString()) {
-      if (this.state.answeredTenCorrect >= 10) {
+      if (this.state.answeredTenCorrect >= 8) {
         showAdmobInterstitialAd();
         this.setState({ answeredTenCorrect: 0 });
       }
@@ -160,8 +188,9 @@ export default class GameScreen extends React.Component {
   };
 
   showHint = () => {
-    if (this.state.usedEightHints >= 8) {
+    if (this.state.usedEightHints >= 6) {
       showAdmobInterstitialAd();
+      showAdmobRewardedAd();
       this.setState({ usedEightHints: 0 });
     }
     this.setState({
