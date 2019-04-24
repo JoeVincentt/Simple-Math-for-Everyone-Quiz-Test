@@ -158,7 +158,7 @@ export default class GameScreen extends React.Component {
     }
     if (this.state.answer.toString() === this.state.rightAnswer.toString()) {
       if (this.state.answeredTenCorrect >= 8) {
-        showAdmobInterstitialAd();
+        // showAdmobInterstitialAd();
         this.setState({ answeredTenCorrect: 0 });
       }
       this.setState({ answeredTenCorrect: this.state.answeredTenCorrect + 1 });
@@ -171,8 +171,7 @@ export default class GameScreen extends React.Component {
     }
     if (this.state.answer.toString() !== this.state.rightAnswer.toString()) {
       if (this.state.answeredEightWrong >= 8) {
-        showAdmobInterstitialAd();
-        showAdmobRewardedAd();
+        // showAdmobInterstitialAd();
         this.setState({ answeredEightWrong: 0 });
       }
       this.setState({
@@ -189,8 +188,7 @@ export default class GameScreen extends React.Component {
 
   showHint = () => {
     if (this.state.usedEightHints >= 6) {
-      showAdmobInterstitialAd();
-      showAdmobRewardedAd();
+      // showAdmobInterstitialAd();
       this.setState({ usedEightHints: 0 });
     }
     this.setState({

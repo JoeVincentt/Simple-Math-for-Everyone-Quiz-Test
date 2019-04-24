@@ -52,8 +52,11 @@ const styles = StyleSheet.create({
     elevation: 1
   },
   answerText: {
-    fontSize: width * 0.15,
+    fontSize: width * 0.12,
     paddingHorizontal: width * 0.01,
-    marginBottom: width * 0.01
+    marginBottom: width * 0.015,
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center"
   }
 });

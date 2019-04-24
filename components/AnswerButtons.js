@@ -99,7 +99,7 @@ export const AnswerButtons = ({
           innerStyle={styles.bounceInner}
           onPress={() => action1()}
         >
-          <ButtonText> 1 </ButtonText>
+          <ButtonText> | </ButtonText>
         </BounceButton>
         <BounceButton
           style={styles.bounceBase}
